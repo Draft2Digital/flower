@@ -562,6 +562,14 @@ var flower = (function () {
                     succeeded_graph = create_graph(data, '-succeeded');
                     succeeded_graph.update();
 
+                    //Check to insure all the other graphs are initialized before creating the sliders
+                    if (failed_graph && time_graph && broker_graph) {
+                        new Rickshaw.Graph.RangeSlider({
+                            graphs: [succeeded_graph, failed_graph, time_graph, broker_graph],
+                            element: jQuery('.slider')
+                        });
+                    }
+
                     succeeded_graph.series.setTimeInterval(updateinterval);
                     setInterval(function () {
                         update_graph(succeeded_graph,
@@ -582,6 +590,14 @@ var flower = (function () {
                 success: function (data) {
                     time_graph = create_graph(data, '-time', null, null, 's');
                     time_graph.update();
+
+                    //Check to insure all the other graphs are initialized before creating the sliders
+                    if (succeeded_graph && failed_graph && broker_graph) {
+                        new Rickshaw.Graph.RangeSlider({
+                            graphs: [succeeded_graph, failed_graph, time_graph, broker_graph],
+                            element: jQuery('.slider')
+                        });
+                    }
 
                     time_graph.series.setTimeInterval(updateinterval);
                     setInterval(function () {
@@ -604,6 +620,14 @@ var flower = (function () {
                     failed_graph = create_graph(data, '-failed');
                     failed_graph.update();
 
+                    //Check to insure all the other graphs are initialized before creating the sliders
+                    if (succeeded_graph && time_graph && broker_graph) {
+                        new Rickshaw.Graph.RangeSlider({
+                            graphs: [succeeded_graph, failed_graph, time_graph, broker_graph],
+                            element: jQuery('.slider')
+                        });
+                    }
+
                     failed_graph.series.setTimeInterval(updateinterval);
                     setInterval(function () {
                         update_graph(failed_graph,
@@ -621,6 +645,13 @@ var flower = (function () {
                 success: function (data) {
                     broker_graph = create_graph(data, '-broker');
                     broker_graph.update();
+
+                    if (succeeded_graph && failed_graph && time_graph && broker_graph) {
+                        new Rickshaw.Graph.RangeSlider({
+                            graphs: [succeeded_graph, failed_graph, time_graph, broker_graph],
+                            element: jQuery('.slider')
+                        });
+                    }
 
                     broker_graph.series.setTimeInterval(updateinterval);
                     setInterval(function () {
