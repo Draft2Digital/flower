@@ -27,9 +27,11 @@ class SucceededTaskMonitor(BaseHandler):
         for _, task in state.itertasks():
             if (timestamp < task.timestamp and task.state == states.SUCCESS):
                 data[task.worker.hostname] += 1
-        for worker in state.workers:
-            if worker not in data:
-                data[worker] = 0
+
+        for name, worker in state.workers.items():
+            if name not in data:
+                if worker.alive:
+                    data[name] = 0
 
         self.write(data)
 
@@ -77,9 +79,11 @@ class FailedTaskMonitor(BaseHandler):
         for _, task in state.itertasks():
             if (timestamp < task.timestamp and task.state == states.FAILURE):
                 data[task.worker.hostname] += 1
-        for worker in state.workers:
-            if worker not in data:
-                data[worker] = 0
+
+        for name, worker in state.workers.items():
+            if name not in data:
+                if worker.alive:
+                    data[name] = 0
 
         self.write(data)
 
